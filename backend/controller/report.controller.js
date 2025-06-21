@@ -33,7 +33,7 @@ export const uploadReportController = async (req , res) => {
 }
 export const getReports = async (req , res ) => {
     const user = req.user ;
-   const  userIdNew = user._id;
+    const  userIdNew = user._id;
     try {
         
     const reports = await Report.find({userId : userIdNew } );

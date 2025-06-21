@@ -14,6 +14,9 @@ import { Toaster } from "react-hot-toast";
 import SignupRoute from "./pages/SignupRoute";
 import { Loader } from "lucide-react";
 import { Navigate } from "react-router-dom";
+import Profile from "./pages/Profile";
+import Navbar from "./components/Navbar";
+import Post from "./components/Post";
 
 function App() {
    const {authUser , checkAuth , isCheckingAuth} = useAuthStore()
@@ -37,13 +40,16 @@ function App() {
   return (
   
     <>
+    <Navbar/>
+    <Post/>
+   
     {/* <ChangePassword/>
     <VerifyOtp/> */}
       <BrowserRouter>
       <Routes>
         <Route path="/signup" element={authUser ? <Navigate to="/" /> :  <SignupRoute/>} />
         <Route path="/signin" element={authUser ? <Navigate to="/" /> :  <SignIn/>} />
-        <Route path="/" element={authUser ? <Landing />  : <Navigate to="/signin" />} />
+        <Route path="/" element={authUser ?  <Profile/> : <Navigate to="/signin" />} />
       </Routes>
     </BrowserRouter> 
     <Toaster />
