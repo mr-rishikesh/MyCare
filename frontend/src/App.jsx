@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -17,6 +18,7 @@ import { Navigate } from "react-router-dom";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
 import Post from "./components/Post";
+import CreatePost from "./components/CreatePost";
 
 function App() {
    const {authUser , checkAuth , isCheckingAuth} = useAuthStore()
@@ -37,15 +39,19 @@ function App() {
  
  
 
-  return (
-  
-    <>
-    <Navbar/>
-    <Post/>
+  return (<>
+   
+    
+   
+          
+        
    
     {/* <ChangePassword/>
     <VerifyOtp/> */}
       <BrowserRouter>
+       <Navbar/>
+       <CreatePost/>
+    <Post/>
       <Routes>
         <Route path="/signup" element={authUser ? <Navigate to="/" /> :  <SignupRoute/>} />
         <Route path="/signin" element={authUser ? <Navigate to="/" /> :  <SignIn/>} />
@@ -53,8 +59,8 @@ function App() {
       </Routes>
     </BrowserRouter> 
     <Toaster />
-    </>
-  );
+    </>)
+  
 }
 
-export default App;
+export default App

@@ -16,12 +16,17 @@ const postSchema = mongoose.Schema({
         type : String ,
         default : "Report "
     } ,
+    description : {
+        type : String ,
+        default : ""
+    } ,
     image : {
         type : String ,
+        default : ""
 
     },
     
-    upvote : {
+    upvotes : {
         type : Number ,
         default : 0
 

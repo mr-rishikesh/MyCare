@@ -4,12 +4,12 @@ import express from "express";
 import { protectRoute } from "../middleware/auth.middleware.js";
 
 
-const emailRouter = express.Router();
+const authRouter = express.Router();
 
-emailRouter.post("/signup" , signUp)
-emailRouter.post("/verify-otp" , verifyOtp)
-emailRouter.post("/signin"  , signin)
-emailRouter.get("/check" , protectRoute , checkAuth)
+authRouter.post("/signup" , signUp)
+authRouter.post("/verify-otp" , verifyOtp)
+authRouter.post("/signin"  , signin)
+authRouter.get("/check" , protectRoute , checkAuth)
 
 
-export default emailRouter
+export default authRouter
