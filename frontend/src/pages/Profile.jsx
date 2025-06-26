@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import profileImage from "../assets/like-button-icon.webp"
 
 export default function Profile() {
   const [openSettings, setOpenSettings] = useState(false);
@@ -61,17 +62,17 @@ export default function Profile() {
         </div>
 
         <div className="flex flex-col items-center -mt-20">
-          <img src="https://avatars.githubusercontent.com/u/160262729?s=400&u=83e2a3ca3271123911fde25094ec5faf9d6c9a2e&v=4" alt="Profile" className="w-40 h-40 object-cover border-4 border-white rounded-full" />
+          <img src={authUser.profilePic ?authUser.profilePic :  "https://freesvg.org/img/abstract-user-flat-4.png" } alt="Profile" className="w-40 h-40 object-cover border-4 border-white rounded-full" />
           <div className="flex items-center space-x-2 mt-2">
-            <p className="text-2xl font-semibold">Amanda Ross</p>
+            <p className="text-2xl font-semibold">{authUser ? authUser.fullName : ""}</p>
             <span className="bg-blue-500 rounded-full p-1" title="Verified">
               <svg className="text-white h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
               </svg>
             </span>
           </div>
-          <p className="text-gray-700">Senior Software Engineer at Tailwind CSS</p>
-          <p className="text-sm text-gray-500">New York, USA</p>
+          <p className="text-gray-700">Health Consultant</p>
+          <p className="text-sm text-gray-500">{authUser ? authUser.city : ""}</p>
         </div>
 
         {/* Profile Buttons */}
@@ -106,9 +107,13 @@ export default function Profile() {
               <span className="font-bold w-32">Email:</span>
               <span className="text-gray-700">{authUser.email}</span>
             </li>
+              <li className="flex border-b py-2">
+              <span className="font-bold w-32">Age:</span>
+              <span className="text-gray-700">{authUser.age}</span>
+            </li>
             <li className="flex border-b py-2">
-              <span className="font-bold w-32">Gender:</span>
-              <span className="text-gray-700">{authUser.gender}</span>
+              <span className="font-bold w-32">Tags:</span>
+              <span className="text-gray-700">{authUser.tags ? authUser.tags : "health"}</span>
             </li>
             <li className="flex border-b py-2">
               <span className="font-bold w-32">Joined:</span>

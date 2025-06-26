@@ -39,7 +39,7 @@ const sendOtp = async (email , otp) => {
 
 
 export const signUp = async (req, res) => {
-  const {city, email, fullName, gender,  password } = req.body;
+  const {city, email, fullName, gender,  password , age } = req.body;
 
   console.log(email);
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -52,6 +52,7 @@ export const signUp = async (req, res) => {
     password,
     expiresAt: Date.now() + 50 * 60 * 1000, // 5 minutes ,
     city,
+    age
   };
 
 
@@ -66,7 +67,7 @@ export const signUp = async (req, res) => {
         });
     }
 
-    sendOtp(email , otp)
+   await sendOtp(email , otp)
 
   
     res.status(201).json({ success: true, message: "OTP sent to email Sucessfully." });
@@ -107,6 +108,7 @@ export const verifyOtp = async (req, res) => {
       city: data.city,
       gender: data.gender,
       password: hashedPassword,
+      age: data.age
     });
     await newUser.save();
     console.log("entered into equal otp ");
@@ -169,10 +171,13 @@ export const signin = async (req , res) => {
     }
 }
 
-export const checkAuth =  (req , res) => {
+export const checkAuth = async  (req , res) => {
     try {
 
-        res.status(200).json(req.user);
+      
+     const allUsers = await User.find();
+        
+        res.status(200).json({authUser :req.user , allUsers : allUsers});
         
     } catch (error) {
         console.error(error);

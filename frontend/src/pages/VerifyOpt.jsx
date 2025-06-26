@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 
 function VerifyOtp() {
-    const {verifyotp} = useAuthStore();
+    const {verifyotp , isVerifyingOtp} = useAuthStore();
    
    let newotp = "";
-    const handleVerifyOtp  = () => {
+    const handleVerifyOtp  = async (e) => {
+      e.preventDefault();
+      
         for (let i of otp) {
               newotp += i;
         }
        // console.log(newotp)
 
-        verifyotp(newotp);
+       await verifyotp(newotp);
+       console.log("Cookies:", document.cookie);
 
 
 
@@ -93,7 +97,14 @@ function VerifyOtp() {
     type="submit"
     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
   >
-    Verify
+                   {isVerifyingOtp ? (
+                        <>
+                        <Loader2 className="size-5 animate-spin" />
+                        <span>Loading...</span>
+                        </>
+                    ) : (
+                        "Verify"
+                    )}
   </button>
 </form>
 

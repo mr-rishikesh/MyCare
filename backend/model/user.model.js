@@ -30,7 +30,14 @@ const userSchema = new  mongoose.Schema({
         type : String ,
         required : true 
     },
-    interests : [String]
+    interests : {
+       type :  [String] ,
+       default : ["Diabetes", "Anxiety","covid-19" , "fitness" ]
+    } , 
+    age : {
+        type : Number,
+        required : true 
+    }
    
 
 } , {timestamps : true})

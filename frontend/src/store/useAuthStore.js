@@ -5,12 +5,14 @@ import {create} from "zustand"
 
  export const useAuthStore = create((set , get ) => ( {
     authUser : null ,
+    allUsers:null ,
     isSigningUp : false ,
     navigateToOtp : false,
     email : "",
     isCheckingAuth : false ,
     isSigningIn : false,
     isforgetPasswordPage : false ,
+    isVerifyingOtp: false , 
 
 
     forgetPassowrd : async (data) => {
@@ -28,8 +30,9 @@ import {create} from "zustand"
                 const res = await axiosInstance.post("/auth/signin" , data);
                 console.log(res + "res of signin");
                 toast.success("Sucessfully SignIn")
-               const { checkAuth }= get();
-               checkAuth();
+                const { checkAuth }= get();
+                 await checkAuth();
+               
                 
             } catch (error) {
                 console.log( error  );
@@ -43,22 +46,29 @@ import {create} from "zustand"
 
 
    verifyotp : async (otp) => {
+    set({isVerifyingOtp : true});
        try {
     
         const {email} = get();
         if(email === "" ) return toast.error("Signin again")
         const res = await axiosInstance.post("/auth/verify-otp"  , {otp , email})
-        toast.success("Sucessfully Sign Up")
-        console.log(res + " vefiry otp response")
+        toast.success("Sucessfully Sign Up");
+          const { checkAuth }= get();
+                 await checkAuth();
+      
+      
+        
         // set({authUser : res.data})
-        toast.success("Sucessfully Sign Up")
-         const { checkAuth }= get();
-               checkAuth();
+      
+         
         
        } catch (error) {
         console.log(error)
-        toast.error("Something Wrong")
+        toast.error("Something Wrong in veryotp")
         
+       } finally {
+         set({isVerifyingOtp : false});
+         
        }
 
    } ,
@@ -68,12 +78,14 @@ import {create} from "zustand"
             set({isCheckingAuth : true})
 
         const res = await axiosInstance.get("/auth/check" )
-        console.log(res + " check auth response ")
-        set({authUser : res.data})
+        console.log(res)
+        set({authUser : res.data.authUser});
+        set({allUsers : res.data.allUsers});
 
         
     } catch (error) {
-       // console.log(error)
+        console.log("Error in check auth frontend")
+        console.log(error)
     } finally {
            set({isCheckingAuth : false})
     }
@@ -87,7 +99,7 @@ import {create} from "zustand"
             set({isSigningUp : true})
             console.log(data)
             const res = await axiosInstance.post("/auth/signup" , data);
-            toast.success( res.data.message);
+            toast.success("Sent Otp");
            // set({authUser : true})
             set({navigateToOtp : true})
             set({email : data.email})

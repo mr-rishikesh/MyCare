@@ -20,12 +20,19 @@ import Navbar from "./components/Navbar";
 import Post from "./components/Post";
 import CreatePost from "./components/CreatePost";
 
+import { initFlowbite } from 'flowbite';
+import { Home } from "./pages/Home";
+
+
+
 function App() {
+
    const {authUser , checkAuth , isCheckingAuth} = useAuthStore()
-  
+
 
   useEffect(() => {
     checkAuth()
+    initFlowbite();
   } , [checkAuth])
 
   console.log({authUser})
@@ -46,16 +53,18 @@ function App() {
           
         
    
-    {/* <ChangePassword/>
-    <VerifyOtp/> */}
+    
       <BrowserRouter>
        <Navbar/>
-       <CreatePost/>
-    <Post/>
+      
+     
+ 
       <Routes>
-        <Route path="/signup" element={authUser ? <Navigate to="/" /> :  <SignupRoute/>} />
-        <Route path="/signin" element={authUser ? <Navigate to="/" /> :  <SignIn/>} />
-        <Route path="/" element={authUser ?  <Profile/> : <Navigate to="/signin" />} />
+        <Route path="/signup" element={authUser ? <Navigate to="/home" /> :  <SignupRoute/>} />
+        <Route path="/signin" element={authUser ? <Navigate to="/home" /> :  <SignIn/>} />
+        <Route path="/home" element={authUser ?   <Home/>: <Navigate to="/signin" />} />
+        <Route path="/profile" element={authUser ?   <Profile/>: <Navigate to="/signin" />} />
+
       </Routes>
     </BrowserRouter> 
     <Toaster />
